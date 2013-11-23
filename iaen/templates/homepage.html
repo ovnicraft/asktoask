@@ -1,0 +1,51 @@
+{% extends "banner_base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block banner %}
+    <h1>{% trans "Welcome to IAEN" %}</h1>
+    
+    <h2>Sobre las Encuentas</h2>
+    <p>
+        {% blocktrans %}
+        El propósito de esta encuesta es garantizar que LA SECRETARIA DE EDUCACIÓN DE BOLIVAR, 
+        se beneficie con sus opiniones, aportes y sugerencias. 
+        Los resultados obtenidos serán utilizados para desarrollar planes de acción, 
+        con el fin de ofrecer mejoras a las políticas, prácticas y procedimientos de la organizacion y el desarrollo de programas de bienestar e incentivos.
+
+        A continuación encontrará una serie de afirmaciones con sus opciones de respuesta orientadas a evaluar y mejorar el Clima Laboral y las necesidades de formación de SECRETARIA DE EDUCACIÓN DE BOLÍVAR, Escoja la opción que usted considere mas acertada y que coincida con su experiencia. Esta evaluación es totalmente confidencial no es necesario anotar su nombre o identidad. 
+
+        Para la obtención de un buen resultado se hace necesario de la sinceridad y objetividad de sus respuestas. NO EXISTEN RESPUESTAS BUENAS O MALAS.
+        {% endblocktrans %}
+    </p>
+    
+    {% if user.is_authenticated %}
+        {% url "formly_dt_survey_list" as survey_design %}
+        {% if request.user.is_superuser %}
+        <h3>Acceso Administrativo</h3>
+        <p>Si eres administrador puedes <a href="{{ survey_design }}" class="btn">Crear</a> encuentas</p>
+        {% else %}
+        <h3>Encuentas Disponibles</h3>
+        {% for s in surveys %}
+        {% url "formly_rt_take_survey" s.id as survey_take %}
+        <p class="what_next"><a href="{{ survey_take }}" class="btn primary large">Tomar Encuesta =></a><strong> {{ s.name }}</strong></p>
+        {% endfor %}
+        {% endif %}
+    {% else %}
+        {% url "account_login" as login_url %}
+        {% url "account_signup" as signup_url %}
+        {% url "formly_dt_survey_list" as survey_design %}
+        <p>{% blocktrans %}Tu puedes <a href="{{ login_url }}" class="btn">Ingresar</a> o <a href="{{ signup_url }}" class="btn primary">Registrarte</a> para tomar la encuesta.{% endblocktrans %}</p>
+        <p>Si eres administrador puedes <a href="{{ survey_design }}" class="btn">Crear</a> encuentas</p>
+    {% endif %}
+{% endblock %}
+{% block column-1 %}
+{% endblock %}
+{% block column-2 %}
+{% endblock %}
+{% block column-3 %}
+{% endblock %}
