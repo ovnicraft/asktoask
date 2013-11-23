@@ -32,7 +32,7 @@
         <h3>Encuentas Disponibles</h3>
         {% for s in surveys %}
         {% url "formly_rt_take_survey" s.id as survey_take %}
-        <p class="what_next"><a href="{{ survey_take }}" class="btn primary large">Tomar Encuesta =></a><strong> {{ s.name }}</strong></p>
+<p class="what_next"><strong> {{ s.name }}</strong> <a href="{{ survey_take }}" class="btn btn-primary large">Tomar Encuesta</a></p>
         {% endfor %}
         {% endif %}
     {% else %}
