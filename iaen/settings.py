@@ -17,7 +17,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "asktoask",
-        "USER": "ovnicraft",
+        "USER": "asktoask",
         "host": "localhost",
         "port": "5432",
     }
