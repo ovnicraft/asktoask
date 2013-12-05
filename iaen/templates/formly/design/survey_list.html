@@ -1,0 +1,112 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Encuentas" %}{% endblock %}
+
+{% block body %}
+    <header class="jumbotron subhead" id="overview">
+      <h1>{% trans "Encuestas" %}</h1>
+      <p class="lead">{% trans "Gestionar encuestas existentes."%}</p>
+      
+      <p>
+        <a class="btn btn-success btn-mini" href="{% url "formly_dt_survey_create" %}">
+            <i class="icon-plus icon-white"></i> {% trans "crear encuesta" %}
+        </a>
+      </p>
+    </header>
+    
+    <h3>{% trans "Encuestas Publicadas" %}</h3>
+    
+    {% if published_surveys.exists %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Creado" %}</th>
+                    <th>{% trans "Actualizado" %}</th>
+                    <th>{% trans "Número de Páginas" %}</th>
+                    <th>{% trans "Resultados" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for survey in published_surveys %}
+                    <tr>
+                        <td>
+                            <a class="btn btn-mini btn-info" href="{% url "formly_rt_take_survey" pk=survey.pk %}">
+                                Tomar Encuesta
+                            </a>
+                            <a class="btn btn-mini btn-warn" href="{% url "formly_survey_results" pk=survey.pk %}">
+                                Ver Resultados
+                            </a>
+                        </td>
+                        <td>{{ survey.name }}</td>
+                        <td>{{ survey.created }}</td>
+                        <td>{{ survey.updated }}</td>
+                        <td>{{ survey.pages.count }}</td>
+                        <td>{{ survey.results.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "No hay encuestas publicadas. Publicar una !" %}</p>
+    {% endif %}
+    
+    
+    <h3>{% trans "Encuestas no publicadas" %}</h3>
+    
+    {% if unpublished_surveys.exists %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Creado" %}</th>
+                    <th>{% trans "Actualizado" %}</th>
+                    <th>{% trans "Contador de Páginas" %}</th>
+                    <th>{% trans "Resultados" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for survey in unpublished_surveys %}
+                    <tr>
+                        <td>
+                            <div class="actions clearfix">
+                                <form action="{% url "formly_dt_survey_publish" pk=survey.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-mini btn-primary" type="submit">
+                                        <i class="icon-share icon-white"></i> Publicar
+                                    </button>
+                                </form>
+                                <form action="{% url "formly_dt_survey_duplicate" pk=survey.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-mini btn-primary" type="submit">
+                                        <i class="icon-share icon-white"></i> {% trans "Duplicar" %}
+                                    </button>
+                                </form>
+                            </div>
+                            <a class="btn btn-mini btn-info" href="{% url "formly_dt_survey_detail" pk=survey.pk %}">
+                                {% trans "Editar Encuesta" %}
+                            </a>
+                            <a class="btn btn-mini" href="{% url "formly_rt_take_survey" pk=survey.pk %}">
+                                {% trans "Tomar Encuesta" %}
+                            </a>
+                            <a class="btn btn-mini" href="{% url "formly_survey_results" pk=survey.pk %}">
+                                {% trans "Ver Resultados" %}
+                            </a>
+                        </td>
+                        <td>{{ survey.name }}</td>
+                        <td>{{ survey.created }}</td>
+                        <td>{{ survey.updated }}</td>
+                        <td>{{ survey.pages.count }}</td>
+                        <td>{{ survey.results.count }}</td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "Actualmente no hay encuestas publicadas." %} <a href="{% url "formly_dt_survey_create" %}">{% trans "Crea una !" %}</a></p>
+    {% endif %}
+    
+{% endblock %}

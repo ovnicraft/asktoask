@@ -1,0 +1,24 @@
+{% extends "site_base.html" %}
+
+{% load bootstrap_tags %}
+
+{% block body %}
+
+<header class="jumbotron subhead" id="overview">
+  <h1>Borrar Página</h1>
+  <p class="lead">Por favor confirmar la eliminación de esta página.</p>
+</header>
+
+<form action="{% url "formly_dt_page_delete" pk=page.pk %}" method="post">
+    <legend>{{ page }}</legend>
+    {% csrf_token %}
+     <fieldset>
+        {{ form|as_bootstrap }}
+    </fieldset>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger">Borrar</button>
+        <a class="btn" href="{{ page.get_absolute_url }}">Cancelar</a>
+    </div>
+</form>
+
+{% endblock %}

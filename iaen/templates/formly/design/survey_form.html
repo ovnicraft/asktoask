@@ -1,0 +1,18 @@
+{% extends "site_base.html" %}
+
+{% load bootstrap_tags %}
+
+{% block head_title %}Crear Encuesta {% endblock %}
+
+{% block body %}
+    <form action="{% url "formly_dt_survey_create" %}" method="post">
+        <legend>Crear una nueva encuesta</legend>
+        {% csrf_token %}
+        <fieldset>
+            {{ form|as_bootstrap }}
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </div>
+    </form>
+{% endblock %}

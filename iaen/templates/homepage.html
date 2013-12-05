@@ -2,12 +2,12 @@
 {% load i18n %}
 {% load url from future %}
 
-{% block head_title %}{% trans "Welcome" %}{% endblock %}
+{% block head_title %}{% trans "Bienvenido" %}{% endblock %}
 
 {% block body_class %}home{% endblock %}
 
 {% block banner %}
-    <h1>{% trans "Welcome to IAEN" %}</h1>
+    <h1>{% trans "Bienvenido" %}</h1>
     
     <h2>Sobre las Encuentas</h2>
     <p>
@@ -39,8 +39,8 @@
         {% url "account_login" as login_url %}
         {% url "account_signup" as signup_url %}
         {% url "formly_dt_survey_list" as survey_design %}
-        <p>{% blocktrans %}Tu puedes <a href="{{ login_url }}" class="btn">Ingresar</a> o <a href="{{ signup_url }}" class="btn primary">Registrarte</a> para tomar la encuesta.{% endblocktrans %}</p>
-        <p>Si eres administrador puedes <a href="{{ survey_design }}" class="btn">Crear</a> encuentas</p>
+        <p>{% blocktrans %}Tu puedes <a href="{{ login_url }}" class="btn btn-info">Ingresar</a> o <a href="{{ signup_url }}" class="btn primary">Registrarte</a> para tomar la encuesta.{% endblocktrans %}</p>
+        <p>Si eres administrador puedes <a href="{{ survey_design }}" class="btn btn-primary">Crear</a> encuentas</p>
     {% endif %}
 {% endblock %}
 {% block column-1 %}
